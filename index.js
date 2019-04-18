@@ -8,8 +8,11 @@ require('dotenv').config()
 // songmaker
 //    array of mood numbers -> dope beats
 //
+const { SentimentAnalyzer } = require('node-nlp')
 const fetch = require('node-fetch')
 const qs = require('qs')
+
+const sentiment = new SentimentAnalyzer({ language: 'en' })
 
 const username = process.argv[2]
 const baseUrl = 'https://api.twitter.com/1.1/statuses/user_timeline.json'
@@ -30,12 +33,26 @@ const params = {
 }
 
 const url = `${baseUrl}?${qs.stringify(params)}`
-fetch(url, {
-  headers
-}).then(res => res.json())
-  .then(json => {
-    return json.map(obj => obj.text)
+
+async function main () {
+  const res = await fetch(url, {
+    headers
   })
-  .then(texts => {
-    console.log(texts)
-  })
+  const json = await res.json()
+  const texts = json.map(obj => obj.text)
+  const sentiments = await Promise.all(texts.map(text => {
+    return {
+      [text]: sentiment.getSentiment(text)
+    }
+  }))
+
+  const scores = sentiments.reduce((acc, sentiment) => {
+    const key = Object.keys(sentiment)[0]
+    acc.set(key, sentiment[key].score)
+    return acc
+  }, new Map())
+
+  console.log(scores)
+}
+
+main()

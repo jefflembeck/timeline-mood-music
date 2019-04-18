@@ -24,6 +24,7 @@
   "dependencies": {
     "dotenv": "^7.0.0",
     "node-fetch": "^2.3.0",
+    "node-nlp": "^3.0.1",
     "qs": "^6.7.0"
   }
 }
