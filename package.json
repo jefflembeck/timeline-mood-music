@@ -1,0 +1,19 @@
+{
+  "name": "timeline-mood-music",
+  "version": "1.0.0",
+  "description": "Take your tweets and make a song",
+  "main": "index.js",
+  "scripts": {
+    "test": "tap -R spec test/**-test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jefflembeck/timeline-mood-music.git"
+  },
+  "author": "Jeff Lembeck <jlembeck@gmail.com> (http://www.jefflembeck.com)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jefflembeck/timeline-mood-music/issues"
+  },
+  "homepage": "https://github.com/jefflembeck/timeline-mood-music#readme"
+}
