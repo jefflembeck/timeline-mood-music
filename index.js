@@ -8,7 +8,10 @@ require('dotenv').config()
 // songmaker
 //    array of mood numbers -> dope beats
 //
+const fs = require('fs')
+
 const { SentimentAnalyzer } = require('node-nlp')
+const Midi = require('@tonejs/midi')
 const fetch = require('node-fetch')
 const qs = require('qs')
 
@@ -46,13 +49,23 @@ async function main () {
     }
   }))
 
-  const scores = sentiments.reduce((acc, sentiment) => {
+  const midiVals = sentiments.map(sentiment => {
     const key = Object.keys(sentiment)[0]
-    acc.set(key, sentiment[key].score)
-    return acc
-  }, new Map())
+    return Math.floor(((sentiment[key].score * 4) + 63))
+  })
 
-  console.log(scores)
+  const midi = new Midi()
+  const track = midi.addTrack()
+
+  midiVals.forEach((val, idx) => {
+    track.addNote({
+      midi: val,
+      duration: 0.2,
+      time: idx * 0.3
+    })
+  })
+
+  fs.writeFileSync('output.mid', Buffer.from(midi.toArray()))
 }
 
 main()

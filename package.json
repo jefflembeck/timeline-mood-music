@@ -22,6 +22,7 @@
     "tap": "^12.6.2"
   },
   "dependencies": {
+    "@tonejs/midi": "^1.2.3",
     "dotenv": "^7.0.0",
     "node-fetch": "^2.3.0",
     "node-nlp": "^3.0.1",
